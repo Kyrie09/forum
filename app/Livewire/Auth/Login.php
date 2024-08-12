@@ -8,7 +8,12 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Livewire\Component;
+
+use function Laravel\Prompts\error;
 
 class Login extends Component implements HasForms
 {
@@ -27,6 +32,7 @@ class Login extends Component implements HasForms
 
                 TextInput::make('email')
                 ->email()
+                ->exists()
                 ->suffixIcon('heroicon-o-at-symbol')
                 ->required(),
                 TextInput::make('password')
@@ -40,8 +46,22 @@ class Login extends Component implements HasForms
     }
     public function create()
     {
-         return redirect('/');
-        //  dd($this->form->getState());
+        $data = $this->form->getState();
+
+        $credentials = [
+            'email' => $data['email'],
+            'password' => $data['password'],
+        ];
+
+        if (Auth::attempt($credentials)) {
+            // Successful login
+            session()->regenerate();
+            return redirect()->intended('/');
+        }
+        // Handle failed login
+        $this->addError('email', 'Invalid credentials.');
+
+
     }
     public function render()
     {

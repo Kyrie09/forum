@@ -1,17 +1,19 @@
-<div class="flex h-dvh justify-center items-center">
-    <div class="w-full md:w-1/2 px-5">
+<div class="flex items-center justify-center h-dvh">
+    <div class="w-full px-5 md:w-1/2">
         <form wire:submit="create">
 
             <div class="flex justify-center mb-2">
                 <img src="logo/logo.png"  class="w-1/4" alt="">
             </div>
-            <h2 class="font-bold text-center mb-2">Veritas College of Irosin</h2>
-            <div class="w-full md:w-full p-2" >{{ $this->form }}
-
-            <button type="submit" class="w-full hover:bg-green-300 mt-3 rounded-lg py-2 text-white  bg-gradient-to-r from-green-700 to-green-500">
+            <h2 class="mb-2 font-bold text-center">Veritas College of Irosin</h2>
+            <div class="w-full p-2 md:w-full" >{{ $this->form }}
+                <div class="px-2 mt-2">
+                    @error('email') <span class="text-red-500 error" >{{ $message }}</span> @enderror
+                </div>
+            <button type="submit" class="w-full py-2 mt-3 text-white rounded-lg hover:bg-green-300 bg-gradient-to-r from-green-700 to-green-500">
                 Login
             </button>
-            <div class="flex flex-col text-center justify-center mt-2 w-full">
+            <div class="flex flex-col justify-center w-full mt-2 text-center">
                 <a href="" >Forgot password?</a>
                 <a href="{{route('register-user')}}" class="underline hover:text-green-500">Create new account</a>
             </div>

@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Validation\Rules\Password;
 
 class BadCommentResource extends Resource
 {
@@ -23,7 +24,7 @@ class BadCommentResource extends Resource
     {
         return $form
             ->schema([
-                //
+
             ]);
     }
 

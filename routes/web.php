@@ -1,23 +1,6 @@
 <?php
 
-use App\Livewire\Auth\ForgotPassword;
-use App\Livewire\Auth\Login;
-use App\Livewire\Auth\RegisterUser;
-use App\Livewire\Auth\ResetPassword;
-use App\Livewire\Block;
-use App\Livewire\ContactAdmin;
-use App\Livewire\EditProfile;
-use App\Livewire\Event;
-use App\Livewire\Faculty;
-use App\Livewire\Forum;
-use App\Livewire\Home;
-use App\Livewire\Message;
-use App\Livewire\News;
-use App\Livewire\Notification;
-use App\Livewire\Profile;
-use App\Livewire\Student;
-use App\Livewire\StudentList;
-use App\Livewire\Year;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,28 +13,33 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::middleware('auth')->group(function () {
+        Route::view('/', 'home')->middleware('auth');
+        Route::view('/profile','profile')->name('profile');
+        Route::view('/notification', 'notification')->name('notification');
+        Route::view('/messages', 'message')->name('messages');
+        Route::view('/editProfile', 'edit-profile')->name('editProfile');
+        Route::view('/contactAdmin', 'contact-admin')->name('contactAdmin');
 
-Route::get('/', Home::class);
-Route::get('/profile', Profile::class)->name('profile');
-Route::get('/notification', Notification::class)->name('notification');
-Route::get('/messages', Message::class)->name('messages');
-Route::get('/editProfile', EditProfile::class)->name('editProfile');
-Route::get('/contactAdmin', ContactAdmin::class)->name('contactAdmin');
+        Route::view('/students', 'student')->name('student');
+        Route::view('/years/{id}', 'year')->name('year');
+        Route::view('/blocks/{id}', 'block')->name('block');
+        Route::view('/studentList/{id}', 'student-list')->name('student-list');
 
-Route::get('/students', Student::class)->name('student');
-Route::get('/years', Year::class)->name('year');
-Route::get('/blocks', Block::class)->name('block');
-Route::get('/studentList', StudentList::class)->name('student-list');
+        Route::view('/events', 'event')->name('event');
 
-Route::get('/events', Event::class)->name('event');
+        Route::view('/news', 'news')->name('news');
+        Route::view('/createNews', 'create-news')->name('createNews');
 
-Route::get('/news', News::class)->name('news');
+        Route::view('/forums', 'forum')->name('forum');
 
-Route::get('/forums', Forum::class)->name('forum');
+        Route::view('/faculty', 'faculty')->name('faculty');
+});
 
-Route::get('/faculty', Faculty::class)->name('faculty');
+Route::middleware('guest')->group(function () {
+    Route::view('/login', 'login')->name('login');
+    Route::view('register-user', 'register')->name('register-user');
+    Route::view('/forgot-password', 'forgot-password')->name('forgot-password');
+    Route::view('/reset-password', 'reset-password')->name('reset-password');
+});
 
-Route::get('/login', Login::class)->name('login');
-Route::get('register-user', RegisterUser::class)->name('register-user');
-Route::get('/forgot-password', ForgotPassword::class)->name('forgot-password');
-Route::get('/register', ResetPassword::class)->name('reset-password');
